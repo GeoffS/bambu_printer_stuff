@@ -67,6 +67,14 @@ module complete()
         railSlotY = 19;
         railSlotOffsetZ = 11;;
         tcu([0, -railSlotY/2, -zAxisCOrnerDia/2], [100, railSlotY, 100]);
+
+        // Locator screw hole at rear:
+        translate([-44/2, 0, baseTopSplitZ])
+        {
+            tcy([0,0,-20+4], d=3, h=20);
+            tcy([0,0,-20], d=3.4, h=20);
+            tcy([0,0,-20-2.3], d=6, h=20);
+        }
     }
 }
 
@@ -81,7 +89,7 @@ module topCylinder(xSign, topZ)
 
 module clip(d=0)
 {
-	// tc([-200, -400-d, -200], 400);
+	tc([-200, -400-d, -200], 400);
 }
 
 if(developmentRender)

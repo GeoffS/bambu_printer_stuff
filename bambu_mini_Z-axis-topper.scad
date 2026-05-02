@@ -78,6 +78,12 @@ module complete()
             tcy([0,0,-20-2.3], d=6, h=20);
         }
 
+        // Double sided tape recess:
+        tapeRecessX = 30;
+        tapeRecessY = 20; // 3/4" + a bit
+        tapeRecessZ = 0.9;
+        tcu([-tapeRecessX/2, -tapeRecessY/2, -zAxisCOrnerDia/2-tapeRecessZ], [tapeRecessX, tapeRecessY, 20]);
+
         // // Print only half for fit Checking:
         // tcu([-200, -400, -200], 400);
     }

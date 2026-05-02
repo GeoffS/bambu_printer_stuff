@@ -10,16 +10,16 @@ zAxisCOrnerDia = 20;
 zAxisCOrnerHeight = 18;
 
 wallXY = 2.5;
-wallZ = 20;
+// wallZ = 20;
 
 topCZ = wallXY;
 
 xyCtrOffset = zAxisXY/2 - zAxisCOrnerDia/2;
 corner = [xyCtrOffset, xyCtrOffset, 0];
 
-bottomOffsetZ = -zAxisCOrnerDia/2-wallZ;
+// bottomOffsetZ = -zAxisCOrnerDia/2-wallZ;
 frontOffsetX = (zAxisXY/2 + wallXY);
-echo(str("bottomOffsetZ = ", bottomOffsetZ));
+// echo(str("bottomOffsetZ = ", bottomOffsetZ));
 
 baseTopSplitZ = -zAxisCOrnerDia/2 - 4;
 
@@ -46,9 +46,11 @@ module complete()
     difference()
     {
         // Exterior:
-        extDiaXY = zAxisCOrnerDia + 2*wallXY;
-        extZ = zAxisCOrnerHeight + wallZ;
-         hull() doubleY() doubleX() translate(corner+[0,0,bottomOffsetZ]) simpleChamferedCylinderDoubleEnded(d=extDiaXY, h=extZ, cz=topCZ);
+        hull() 
+        {
+            doubleY() topCylinder(xSign= 1, wallZ=20);
+            doubleY() topCylinder(xSign=-1, wallZ=10);
+        }
 
         // inside:
 	    hull() doubleY() doubleX() 
@@ -68,9 +70,18 @@ module complete()
     }
 }
 
+module topCylinder(xSign, wallZ)
+{
+    bottomOffsetZ = -zAxisCOrnerDia/2 - wallZ;
+    extDiaXY = zAxisCOrnerDia + 2*wallXY;
+    extZ = zAxisCOrnerHeight + wallZ;
+    echo(str("topCylinder() extZ = ", extZ));
+    translate([corner.x*xSign, corner.y, corner.z]+[0,0,bottomOffsetZ]) simpleChamferedCylinderDoubleEnded(d=extDiaXY, h=extZ, cz=topCZ);
+}
+
 module clip(d=0)
 {
-	tc([-200, -400-d, -200], 400);
+	// tc([-200, -400-d, -200], 400);
 }
 
 if(developmentRender)
@@ -78,10 +89,10 @@ if(developmentRender)
 	// display() base();
     // displayGhost() top();
 
-    // displayGhost() base();
-    // display() top();
+    displayGhost() base();
+    display() top();
 
-    display() complete();
+    // display() complete();
 }
 else
 {

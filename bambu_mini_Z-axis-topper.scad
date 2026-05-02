@@ -10,7 +10,7 @@ zAxisCOrnerDia = 20;
 zAxisCOrnerHeight = 18;
 
 wallXY = 2.5;
-wallZ = 10;
+wallZ = 20;
 
 topCZ = wallXY;
 
@@ -21,7 +21,27 @@ bottomOffsetZ = -zAxisCOrnerDia/2-wallZ;
 frontOffsetX = (zAxisXY/2 + wallXY);
 echo(str("bottomOffsetZ = ", bottomOffsetZ));
 
-module itemModule()
+baseTopSplitZ = -zAxisCOrnerDia/2 - 4;
+
+module base()
+{
+    difference()
+    {
+        complete();
+        tcu([-200, -200, -400+baseTopSplitZ], 400);
+    }
+}
+
+module top()
+{
+    difference()
+    {
+        complete();
+        tcu([-200, -200, baseTopSplitZ], 400);
+    }
+}
+
+module complete()
 {
     difference()
     {
@@ -39,12 +59,12 @@ module itemModule()
 
         // Hole for the extension tube:
         tubeOD = 8.2;
-        tcy([frontOffsetX-tubeOD/2-topCZ, 0, -100+bottomOffsetZ+wallZ-1], d=tubeOD, h=100);
+        tcy([frontOffsetX-tubeOD/2-topCZ, 0, -100+baseTopSplitZ+3], d=tubeOD, h=100);
 
         // Gap in front for the Z-axis rail:
         railSlotY = 19;
         railSlotOffsetZ = 11;;
-        tcu([0, -railSlotY/2, bottomOffsetZ+railSlotOffsetZ], [100, railSlotY, 100]);
+        tcu([0, -railSlotY/2, -zAxisCOrnerDia/2], [100, railSlotY, 100]);
     }
 }
 
@@ -55,9 +75,15 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() itemModule();
+	// display() base();
+    // displayGhost() top();
+
+    // displayGhost() base();
+    // display() top();
+
+    display() complete();
 }
 else
 {
-	itemModule();
+	base();
 }

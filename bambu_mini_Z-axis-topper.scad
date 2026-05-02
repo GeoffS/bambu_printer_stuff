@@ -5,21 +5,21 @@ firstLayerHeight = 0.2;
 layerHeight = 0.2;
 perimeterWidth = 0.45;
 
+makeTop = false;
+makeBase = false;
+
 zAxisXY = 52;
 zAxisCOrnerDia = 20;
 zAxisCOrnerHeight = 18;
 
 wallXY = 2.5;
-// wallZ = 20;
 
 topCZ = wallXY;
 
 xyCtrOffset = zAxisXY/2 - zAxisCOrnerDia/2;
 corner = [xyCtrOffset, xyCtrOffset, 0];
 
-// bottomOffsetZ = -zAxisCOrnerDia/2-wallZ;
 frontOffsetX = (zAxisXY/2 + wallXY);
-// echo(str("bottomOffsetZ = ", bottomOffsetZ));
 
 baseTopSplitZ = -zAxisCOrnerDia/2 - 4;
 
@@ -48,8 +48,8 @@ module complete()
         // Exterior:
         hull() 
         {
-            doubleY() topCylinder(xSign= 1, wallZ=20);
-            doubleY() topCylinder(xSign=-1, wallZ=10);
+            doubleY() topCylinder(xSign= 1, topZ=20);
+            doubleY() topCylinder(xSign=-1, topZ=8);
         }
 
         // inside:
@@ -70,11 +70,11 @@ module complete()
     }
 }
 
-module topCylinder(xSign, wallZ)
+module topCylinder(xSign, topZ)
 {
-    bottomOffsetZ = -zAxisCOrnerDia/2 - wallZ;
+    bottomOffsetZ = -zAxisCOrnerDia/2 - topZ;
     extDiaXY = zAxisCOrnerDia + 2*wallXY;
-    extZ = zAxisCOrnerHeight + wallZ;
+    extZ = zAxisCOrnerHeight + topZ;
     echo(str("topCylinder() extZ = ", extZ));
     translate([corner.x*xSign, corner.y, corner.z]+[0,0,bottomOffsetZ]) simpleChamferedCylinderDoubleEnded(d=extDiaXY, h=extZ, cz=topCZ);
 }
@@ -89,12 +89,16 @@ if(developmentRender)
 	// display() base();
     // displayGhost() top();
 
-    displayGhost() base();
+    // displayGhost() base();
+    // display() top();
+
+    display() translate([0,0,0.2]) base();
     display() top();
 
     // display() complete();
 }
 else
 {
-	base();
+	if(makeBase) base();
+	if(makeTop) rotate([180,0,0]) top();
 }

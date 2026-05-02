@@ -8,9 +8,9 @@ perimeterWidth = 0.45;
 makeTop = false;
 makeBase = false;
 
-zAxisXY = 52;
-zAxisCOrnerDia = 20;
-zAxisCOrnerHeight = 18;
+zAxisXY = 51;
+zAxisCOrnerDia = 18;
+zAxisCOrnerHeight = 18 + 6;
 
 wallXY = 2.5;
 
@@ -22,6 +22,8 @@ corner = [xyCtrOffset, xyCtrOffset, 0];
 frontOffsetX = (zAxisXY/2 + wallXY);
 
 baseTopSplitZ = -zAxisCOrnerDia/2 - 4;
+
+$fn = 180;
 
 module base()
 {
@@ -66,7 +68,7 @@ module complete()
         // Gap in front for the Z-axis rail:
         railSlotY = 19;
         railSlotOffsetZ = 11;;
-        tcu([0, -railSlotY/2, -zAxisCOrnerDia/2], [100, railSlotY, 100]);
+        tcu([0, -railSlotY/2, -zAxisCOrnerDia/2+10], [100, railSlotY, 100]);
 
         // Locator screw hole at rear:
         translate([-44/2, 0, baseTopSplitZ])
@@ -75,6 +77,9 @@ module complete()
             tcy([0,0,-20], d=3.4, h=20);
             tcy([0,0,-20-2.3], d=6, h=20);
         }
+
+        // // Print only half for fit Checking:
+        // tcu([-200, -400, -200], 400);
     }
 }
 
@@ -84,6 +89,7 @@ module topCylinder(xSign, topZ)
     extDiaXY = zAxisCOrnerDia + 2*wallXY;
     extZ = zAxisCOrnerHeight + topZ;
     echo(str("topCylinder() extZ = ", extZ));
+
     translate([corner.x*xSign, corner.y, corner.z]+[0,0,bottomOffsetZ]) simpleChamferedCylinderDoubleEnded(d=extDiaXY, h=extZ, cz=topCZ);
 }
 

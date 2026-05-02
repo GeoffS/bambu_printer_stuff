@@ -4,9 +4,9 @@ include <../OpenSCAD_Lib/chamferedCylinders.scad>
 firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
-zAxisXY = 50;
+zAxisXY = 51;
 zAxisCOrnerDia = 20;
-zAxisCOrnerHeight = 20;
+zAxisCOrnerHeight = 18;
 
 xyCtrOffset = zAxisXY/2 - zAxisCOrnerDia/2;
 corner = [xyCtrOffset, xyCtrOffset, 0];
@@ -16,7 +16,7 @@ module itemModule()
     difference()
     {
         // Exterior:
-        wallXYZ = 3;
+        wallXYZ = 2.5;
         extDiaXY = zAxisCOrnerDia + 2*wallXYZ;
         extZ = zAxisCOrnerHeight + wallXYZ;
          hull() doubleY() doubleX() translate(corner+[0,0,-zAxisCOrnerDia/2-wallXYZ]) simpleChamferedCylinderDoubleEnded(d=extDiaXY, h=extZ, cz=wallXYZ);

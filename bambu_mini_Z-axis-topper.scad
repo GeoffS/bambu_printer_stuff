@@ -5,7 +5,7 @@ firstLayerHeight = 0.2;
 layerHeight = 0.2;
 perimeterWidth = 0.45;
 
-zAxisXY = 51;
+zAxisXY = 52;
 zAxisCOrnerDia = 20;
 zAxisCOrnerHeight = 18;
 
@@ -38,7 +38,7 @@ module itemModule()
         }
 
         // Hole for the extension tube:
-        tubeOD = 8.1;
+        tubeOD = 8.2;
         tcy([frontOffsetX-tubeOD/2-topCZ, 0, -100+bottomOffsetZ+wallZ-1], d=tubeOD, h=100);
 
         // Gap in front for the Z-axis rail:

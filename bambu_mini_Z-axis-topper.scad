@@ -7,12 +7,15 @@ perimeterWidth = 0.45;
 
 makeTop = false;
 makeBase = false;
+makeTopper = false;
 
 zAxisXY = 51;
 zAxisCOrnerDia = 18;
 zAxisCOrnerHeight = 18 + 6;
 
 wallXY = 2.5;
+
+tubeOD = 8.2;
 
 topCZ = wallXY;
 
@@ -43,6 +46,21 @@ module top()
     }
 }
 
+module topper()
+{
+    topperDia = 25;
+    difference() 
+    {
+        sphere(d=topperDia);
+
+        // Flatten bottom:
+        tcu([-200, -200, -400-topperDia/2*0.707], 400);
+
+        // Hole for the extension tube:
+        tcy([0,0,-100+topperDia/2*0.7], d=tubeOD, h=100);
+    }  
+}
+
 module complete()
 {
     difference()
@@ -62,7 +80,6 @@ module complete()
         }
 
         // Hole for the extension tube:
-        tubeOD = 8.2;
         tcy([frontOffsetX-tubeOD/2-topCZ, 0, -100+baseTopSplitZ+3], d=tubeOD, h=100);
 
         // Gap in front for the Z-axis rail:
@@ -101,7 +118,7 @@ module topCylinder(xSign, topZ)
 
 module clip(d=0)
 {
-	tc([-200, -400-d, -200], 400);
+	// tc([-200, -400-d, -200], 400);
 }
 
 if(developmentRender)
@@ -112,8 +129,15 @@ if(developmentRender)
     // displayGhost() base();
     // display() top();
 
-    display() translate([0,0,0.2]) base();
-    display() top();
+    // display() translate([0,0,0.2]) base();
+    // display() top();
+
+    display() topper();
+    translate([-60,0,0])
+    {
+        displayGhost() base();
+        displayGhost() top();
+    }
 
     // display() complete();
 }
@@ -121,4 +145,5 @@ else
 {
 	if(makeBase) base();
 	if(makeTop) rotate([180,0,0]) top();
+	if(makeTopper) topper();
 }

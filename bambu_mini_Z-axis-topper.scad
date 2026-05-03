@@ -9,7 +9,7 @@ makeTop = false;
 makeBase = false;
 makeTopper = false;
 
-zAxisXY = 51;
+zAxisXY = 50.5;
 zAxisCOrnerDia = 18;
 zAxisCOrnerHeight = 18 + 6;
 
@@ -123,7 +123,7 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	// display() base();
+	display() base();
     // displayGhost() top();
 
     // displayGhost() base();
@@ -132,12 +132,12 @@ if(developmentRender)
     // display() translate([0,0,0.2]) base();
     // display() top();
 
-    display() topper();
-    translate([-60,0,0])
-    {
-        displayGhost() base();
-        displayGhost() top();
-    }
+    // display() topper();
+    // translate([-60,0,0])
+    // {
+    //     displayGhost() base();
+    //     displayGhost() top();
+    // }
 
     // display() complete();
 }

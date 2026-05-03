@@ -68,8 +68,12 @@ module complete()
         // Exterior:
         hull() 
         {
-            doubleY() topCylinder(xSign= 1, topZ=20);
-            doubleY() topCylinder(xSign=-1, topZ=8);
+            // MAGIC!!!
+            //  Make the angle betweeen the center cylinder and the edges 45 degress.
+            //  -----------------------------------------vvvv
+            doubleY() topCylinder(xSign= 1, yMult=0,topZ=24.2);
+            doubleY() topCylinder(xSign= 1, yMult=1, topZ=8);
+            doubleY() topCylinder(xSign=-1, yMult=1, topZ=8);
         }
 
         // inside:
@@ -106,14 +110,14 @@ module complete()
     }
 }
 
-module topCylinder(xSign, topZ)
+module topCylinder(xSign, yMult, topZ)
 {
     bottomOffsetZ = -zAxisCOrnerDia/2 - topZ;
     extDiaXY = zAxisCOrnerDia + 2*wallXY;
     extZ = zAxisCOrnerHeight + topZ;
     echo(str("topCylinder() extZ = ", extZ));
 
-    translate([corner.x*xSign, corner.y, corner.z]+[0,0,bottomOffsetZ]) simpleChamferedCylinderDoubleEnded(d=extDiaXY, h=extZ, cz=topCZ);
+    translate([corner.x*xSign, corner.y*yMult, corner.z+bottomOffsetZ]) simpleChamferedCylinderDoubleEnded(d=extDiaXY, h=extZ, cz=topCZ);
 }
 
 module clip(d=0)
@@ -123,11 +127,11 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() base();
+	// display() base();
     // displayGhost() top();
 
     // displayGhost() base();
-    // display() top();
+    display() top();
 
     // display() translate([0,0,0.2]) base();
     // display() top();
